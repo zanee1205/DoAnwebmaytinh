@@ -219,6 +219,100 @@ function getOrders(store, userId) {
     .sort((left, right) => new Date(right.createdAt) - new Date(left.createdAt));
 }
 
+function deriveCategories(products) {
+  return [...new Set(products.map((product) => String(product.category || "").trim()).filter(Boolean))];
+}
+
+function normalizeSpecs(value) {
+  if (Array.isArray(value)) {
+    return value.map((item) => String(item).trim()).filter(Boolean);
+  }
+
+  if (typeof value === "string") {
+    return value
+      .split(",")
+      .map((item) => item.trim())
+      .filter(Boolean);
+  }
+
+  return [];
+}
+
+function getNextProductId(products) {
+  const maxId = products.reduce((max, product) => {
+    const match = String(product.id || "").match(/^prd-(\d+)$/i);
+    if (!match) {
+      return max;
+    }
+    return Math.max(max, Number(match[1] || 0));
+  }, 0);
+
+  return `prd-${maxId + 1}`;
+}
+
+function generateSku(products) {
+  const next = products.length + 1;
+  return `ZNS-${String(next).padStart(4, "0")}`;
+}
+
+function toOptionalNumber(value) {
+  if (value === undefined || value === null || value === "") {
+    return null;
+  }
+  const parsed = Number(value);
+  return Number.isFinite(parsed) ? parsed : NaN;
+}
+
+function buildProductPayload(input, currentProduct = null) {
+  const name = input?.name !== undefined ? String(input.name).trim() : currentProduct?.name;
+  const category = input?.category !== undefined ? String(input.category).trim() : currentProduct?.category;
+  const description = input?.description !== undefined ? String(input.description).trim() : currentProduct?.description;
+  const image = input?.image !== undefined ? String(input.image).trim() : currentProduct?.image;
+  const sku = input?.sku !== undefined ? String(input.sku).trim() : currentProduct?.sku;
+
+  const priceInput = input?.price !== undefined ? input.price : currentProduct?.price;
+  const warrantyInput = input?.warrantyMonths !== undefined ? input.warrantyMonths : currentProduct?.warrantyMonths;
+  const stockInput = input?.stock !== undefined ? input.stock : currentProduct?.stock;
+  const specsInput = input?.specs !== undefined ? input.specs : currentProduct?.specs;
+
+  const price = toOptionalNumber(priceInput);
+  const warrantyMonths = toOptionalNumber(warrantyInput);
+  const stock = toOptionalNumber(stockInput);
+  const specs = normalizeSpecs(specsInput);
+
+  const errors = [];
+  if (!name) {
+    errors.push("Ten san pham la bat buoc.");
+  }
+  if (!category) {
+    errors.push("Danh muc san pham la bat buoc.");
+  }
+  if (!Number.isFinite(price) || price <= 0) {
+    errors.push("Gia san pham phai la so > 0.");
+  }
+  if (!Number.isFinite(warrantyMonths) || warrantyMonths < 0) {
+    errors.push("Bao hanh phai la so >= 0.");
+  }
+  if (!Number.isFinite(stock) || stock < 0) {
+    errors.push("Ton kho phai la so >= 0.");
+  }
+
+  return {
+    errors,
+    product: {
+      name,
+      category,
+      description: description || "",
+      image: image || "",
+      sku: sku || "",
+      price: Math.round(price || 0),
+      warrantyMonths: Math.round(warrantyMonths || 0),
+      stock: Math.round(stock || 0),
+      specs,
+    },
+  };
+}
+
 async function authRequired(req, res, next) {
   const authHeader = req.headers.authorization || "";
   const token = authHeader.startsWith("Bearer ") ? authHeader.slice(7) : req.query.token || null;
@@ -241,6 +335,13 @@ async function authRequired(req, res, next) {
   } catch {
     return res.status(401).json({ message: "Token khong hop le." });
   }
+}
+
+function adminRequired(req, res, next) {
+  if (req.user?.role !== "admin") {
+    return res.status(403).json({ message: "Ban khong co quyen admin de thuc hien thao tac nay." });
+  }
+  return next();
 }
 
 function recommendBuild(products, budget, purpose) {
@@ -314,6 +415,106 @@ app.get("/api/products/:id", async (req, res) => {
     return res.status(404).json({ message: "Khong tim thay san pham." });
   }
   return res.json(product);
+});
+
+app.get("/api/admin/products", authRequired, adminRequired, async (req, res) => {
+  const store = await readStore();
+  const query = String(req.query.q || "").toLowerCase();
+  const products = !query
+    ? store.products
+    : store.products.filter((product) => {
+        return (
+          String(product.name || "").toLowerCase().includes(query) ||
+          String(product.sku || "").toLowerCase().includes(query)
+        );
+      });
+
+  return res.json({
+    count: products.length,
+    categories: store.categories,
+    products,
+  });
+});
+
+app.post("/api/admin/products", authRequired, adminRequired, async (req, res) => {
+  const store = await readStore();
+  const { errors, product } = buildProductPayload(req.body, null);
+
+  if (errors.length) {
+    return res.status(400).json({ message: errors.join(" ") });
+  }
+
+  const nextProduct = {
+    id: getNextProductId(store.products),
+    sku: product.sku || generateSku(store.products),
+    image: product.image,
+    name: product.name,
+    category: product.category,
+    price: product.price,
+    warrantyMonths: product.warrantyMonths,
+    stock: product.stock,
+    specs: product.specs,
+    description: product.description,
+  };
+
+  store.products.push(nextProduct);
+  store.categories = deriveCategories(store.products);
+  await writeStore(store);
+
+  return res.status(201).json({
+    message: "Them san pham thanh cong.",
+    product: nextProduct,
+  });
+});
+
+app.patch("/api/admin/products/:id", authRequired, adminRequired, async (req, res) => {
+  const store = await readStore();
+  const index = store.products.findIndex((product) => product.id === req.params.id);
+
+  if (index < 0) {
+    return res.status(404).json({ message: "Khong tim thay san pham can cap nhat." });
+  }
+
+  const currentProduct = store.products[index];
+  const { errors, product } = buildProductPayload(req.body, currentProduct);
+  if (errors.length) {
+    return res.status(400).json({ message: errors.join(" ") });
+  }
+
+  const updatedProduct = {
+    ...currentProduct,
+    ...product,
+    sku: product.sku || currentProduct.sku || generateSku(store.products),
+  };
+
+  store.products[index] = updatedProduct;
+  store.categories = deriveCategories(store.products);
+  await writeStore(store);
+
+  return res.json({
+    message: "Cap nhat san pham thanh cong.",
+    product: updatedProduct,
+  });
+});
+
+app.delete("/api/admin/products/:id", authRequired, adminRequired, async (req, res) => {
+  const store = await readStore();
+  const product = getProductById(store, req.params.id);
+
+  if (!product) {
+    return res.status(404).json({ message: "Khong tim thay san pham can xoa." });
+  }
+
+  store.products = store.products.filter((item) => item.id !== req.params.id);
+  store.favorites = store.favorites.filter((item) => item.productId !== req.params.id);
+  store.cartItems = store.cartItems.filter((item) => item.productId !== req.params.id);
+  store.categories = deriveCategories(store.products);
+  await writeStore(store);
+
+  return res.json({
+    message: "Xoa san pham thanh cong.",
+    productId: req.params.id,
+  });
 });
 
 app.post("/api/auth/register", async (req, res) => {
