@@ -11,7 +11,10 @@ const crypto = require("crypto");
 const app = express();
 const PORT = Number(process.env.PORT || 4000);
 const JWT_SECRET = process.env.JWT_SECRET || "zanee-store-copy-secret";
-const USERS_FILE = path.join(__dirname, "..", "data", "users.json");
+const DATA_DIR = path.join(__dirname, "..", "data");
+const USERS_FILE = path.join(DATA_DIR, "users.json");
+const STORE_FILE = path.join(DATA_DIR, "store.json");
+const SOURCE_CATALOG_FILE = path.join(__dirname, "..", "..", "Zanee Store", "backend", "data", "db.json");
 
 const seedUsers = [
   {
@@ -43,8 +46,22 @@ const seedUsers = [
   },
 ];
 
+const defaultStore = {
+  categories: [],
+  products: [],
+  favorites: [
+    { userId: "usr-minhdev", productId: "prd-19" },
+    { userId: "usr-minhdev", productId: "prd-6" },
+  ],
+  cartItems: [
+    { userId: "usr-minhdev", productId: "prd-12", quantity: 1 },
+    { userId: "usr-minhdev", productId: "prd-15", quantity: 1 },
+  ],
+  orders: [],
+};
+
 app.use(cors());
-app.use(express.json({ limit: "1mb" }));
+app.use(express.json({ limit: "2mb" }));
 
 function sanitizeUser(user) {
   const { passwordHash, ...safeUser } = user;
@@ -64,48 +81,147 @@ function issueToken(user) {
   );
 }
 
+function normalizeStoreShape(store) {
+  return {
+    categories: Array.isArray(store?.categories) ? store.categories : [],
+    products: Array.isArray(store?.products) ? store.products : [],
+    favorites: Array.isArray(store?.favorites) ? store.favorites : [],
+    cartItems: Array.isArray(store?.cartItems) ? store.cartItems : [],
+    orders: Array.isArray(store?.orders) ? store.orders : [],
+  };
+}
+
+async function readJson(filePath, fallback) {
+  try {
+    const raw = await fs.readFile(filePath, "utf8");
+    return JSON.parse(raw);
+  } catch {
+    return fallback;
+  }
+}
+
+async function writeJson(filePath, value) {
+  await fs.writeFile(filePath, `${JSON.stringify(value, null, 2)}\n`, "utf8");
+}
+
 async function readUsers() {
-  const raw = await fs.readFile(USERS_FILE, "utf8");
-  const parsed = JSON.parse(raw);
+  const parsed = await readJson(USERS_FILE, []);
   return Array.isArray(parsed) ? parsed : [];
 }
 
 async function writeUsers(users) {
-  await fs.writeFile(USERS_FILE, `${JSON.stringify(users, null, 2)}\n`, "utf8");
+  await writeJson(USERS_FILE, users);
+}
+
+async function readStore() {
+  const store = await readJson(STORE_FILE, defaultStore);
+  return normalizeStoreShape(store);
+}
+
+async function writeStore(store) {
+  await writeJson(STORE_FILE, normalizeStoreShape(store));
 }
 
 async function ensureUserStore() {
-  try {
-    await fs.access(USERS_FILE);
-  } catch {
-    await fs.mkdir(path.dirname(USERS_FILE), { recursive: true });
-    await fs.writeFile(USERS_FILE, "[]\n", "utf8");
+  await fs.mkdir(DATA_DIR, { recursive: true });
+  const existingUsers = await readUsers();
+  const deduped = [];
+  const seenKeys = new Set();
+
+  for (const user of existingUsers) {
+    const key = `${String(user.username || "").toLowerCase()}|${String(user.email || "").toLowerCase()}|${String(user.phone || "")}`;
+    if (!seenKeys.has(key)) {
+      seenKeys.add(key);
+      deduped.push(user);
+    }
   }
 
-  const users = await readUsers();
-  if (users.length > 0) {
+  let changed = deduped.length !== existingUsers.length;
+  for (const seed of seedUsers) {
+    const exists = deduped.some(
+      (user) =>
+        String(user.username || "").toLowerCase() === seed.username.toLowerCase() ||
+        String(user.email || "").toLowerCase() === seed.email.toLowerCase() ||
+        String(user.phone || "") === seed.phone
+    );
+
+    if (!exists) {
+      deduped.push({
+        id: seed.id,
+        username: seed.username,
+        email: seed.email,
+        phone: seed.phone,
+        passwordHash: await bcrypt.hash(seed.password, 10),
+        role: seed.role,
+        isLocked: seed.isLocked,
+        createdAt: new Date().toISOString(),
+      });
+      changed = true;
+    }
+  }
+
+  if (changed || existingUsers.length === 0) {
+    await writeUsers(deduped);
+  }
+}
+
+async function ensureStoreData() {
+  await fs.mkdir(DATA_DIR, { recursive: true });
+  const existing = await readStore();
+  if (existing.products.length > 0 && existing.categories.length > 0) {
     return;
   }
 
-  const seeded = await Promise.all(
-    seedUsers.map(async (user) => ({
-      id: user.id,
-      username: user.username,
-      email: user.email,
-      phone: user.phone,
-      passwordHash: await bcrypt.hash(user.password, 10),
-      role: user.role,
-      isLocked: user.isLocked,
-      createdAt: new Date().toISOString(),
-    }))
-  );
+  const sourceCatalog = await readJson(SOURCE_CATALOG_FILE, null);
+  const store = {
+    ...defaultStore,
+    categories: Array.isArray(sourceCatalog?.categories) ? sourceCatalog.categories : [],
+    products: Array.isArray(sourceCatalog?.products) ? sourceCatalog.products : [],
+  };
 
-  await writeUsers(seeded);
+  await writeStore(store);
+}
+
+function getProductById(store, productId) {
+  return store.products.find((product) => product.id === productId) || null;
+}
+
+function getFavorites(store, userId) {
+  return store.favorites
+    .filter((item) => item.userId === userId)
+    .map((item) => getProductById(store, item.productId))
+    .filter(Boolean);
+}
+
+function getCart(store, userId) {
+  return store.cartItems
+    .filter((item) => item.userId === userId)
+    .map((item) => {
+      const product = getProductById(store, item.productId);
+      if (!product) {
+        return null;
+      }
+
+      return {
+        userId,
+        productId: item.productId,
+        quantity: item.quantity,
+        product,
+        subtotal: product.price * item.quantity,
+      };
+    })
+    .filter(Boolean);
+}
+
+function getOrders(store, userId) {
+  return store.orders
+    .filter((order) => order.userId === userId)
+    .sort((left, right) => new Date(right.createdAt) - new Date(left.createdAt));
 }
 
 async function authRequired(req, res, next) {
   const authHeader = req.headers.authorization || "";
-  const token = authHeader.startsWith("Bearer ") ? authHeader.slice(7) : null;
+  const token = authHeader.startsWith("Bearer ") ? authHeader.slice(7) : req.query.token || null;
 
   if (!token) {
     return res.status(401).json({ message: "Thieu token xac thuc." });
@@ -127,12 +243,77 @@ async function authRequired(req, res, next) {
   }
 }
 
-app.get("/api/health", (req, res) => {
+function recommendBuild(products, budget, purpose) {
+  const purposeKey = Array.isArray(purpose) ? purpose[0] : purpose;
+  const templates = {
+    office: ["CPU", "Mainboard", "RAM", "SSD", "Case", "PSU", "Monitor"],
+    basicGaming: ["CPU", "Mainboard", "RAM", "SSD", "GPU", "Case", "PSU", "Monitor"],
+    heavyGaming: ["CPU", "Mainboard", "RAM", "SSD", "GPU", "Case", "PSU", "Monitor", "Cooling"],
+    it: ["CPU", "Mainboard", "RAM", "SSD", "HDD", "Case", "PSU", "Monitor"],
+    content: ["CPU", "Mainboard", "RAM", "SSD", "GPU", "Case", "PSU", "Monitor", "Accessory"],
+  };
+  const route = templates[purposeKey] || templates.office;
+  const maxPerCategory = Math.max(Math.floor(Number(budget || 0) / route.length), 500000);
+  const items = route
+    .map((category) => {
+      const candidates = products
+        .filter((product) => product.category === category)
+        .sort((left, right) => left.price - right.price);
+      return candidates.find((product) => product.price <= maxPerCategory) || candidates[0] || null;
+    })
+    .filter(Boolean);
+
+  const total = items.reduce((sum, item) => sum + item.price, 0);
+  return {
+    items,
+    total,
+    delta: Number(budget || 0) - total,
+  };
+}
+
+app.get("/api/health", async (req, res) => {
+  const store = await readStore();
   res.json({
     ok: true,
-    service: "Zanee Store copy auth API",
+    service: "Zanee Store copy storefront API",
+    products: store.products.length,
     timestamp: new Date().toISOString(),
   });
+});
+
+app.get("/api/bootstrap", async (req, res) => {
+  const store = await readStore();
+  res.json({
+    categories: store.categories,
+    products: store.products,
+    featured: store.products.slice(0, 8),
+    credentialsHint: {
+      admin: { username: "admin", password: "Admin@123" },
+      user: { username: "minhdev", password: "User@123" },
+      locked: { username: "blockeduser", password: "Locked@123" },
+    },
+  });
+});
+
+app.get("/api/products", async (req, res) => {
+  const store = await readStore();
+  const query = String(req.query.q || "").toLowerCase();
+  const category = String(req.query.category || "");
+  const products = store.products.filter((product) => {
+    const matchesQuery = !query || product.name.toLowerCase().includes(query);
+    const matchesCategory = !category || product.category === category;
+    return matchesQuery && matchesCategory;
+  });
+  res.json(products);
+});
+
+app.get("/api/products/:id", async (req, res) => {
+  const store = await readStore();
+  const product = getProductById(store, req.params.id);
+  if (!product) {
+    return res.status(404).json({ message: "Khong tim thay san pham." });
+  }
+  return res.json(product);
 });
 
 app.post("/api/auth/register", async (req, res) => {
@@ -146,16 +327,14 @@ app.post("/api/auth/register", async (req, res) => {
 
   const users = await readUsers();
   const existing = users.find(
-    (item) =>
-      item.username.toLowerCase() === String(username).toLowerCase() ||
-      item.email.toLowerCase() === String(email).toLowerCase() ||
-      item.phone === String(phone)
+    (user) =>
+      user.username.toLowerCase() === String(username).toLowerCase() ||
+      user.email.toLowerCase() === String(email).toLowerCase() ||
+      user.phone === String(phone)
   );
 
   if (existing) {
-    return res
-      .status(409)
-      .json({ message: "Username, email hoac so dien thoai da ton tai." });
+    return res.status(409).json({ message: "Username, email hoac so dien thoai da ton tai." });
   }
 
   const user = {
@@ -214,19 +393,208 @@ app.post("/api/auth/reset-password", async (req, res) => {
 });
 
 app.get("/api/me", authRequired, async (req, res) => {
-  return res.json({ user: sanitizeUser(req.user) });
+  const store = await readStore();
+  return res.json({
+    user: sanitizeUser(req.user),
+    favorites: getFavorites(store, req.user.id),
+    cart: getCart(store, req.user.id),
+    orders: getOrders(store, req.user.id),
+  });
+});
+
+app.post("/api/favorites/:productId", authRequired, async (req, res) => {
+  if (req.user.role !== "user") {
+    return res.status(403).json({ message: "Admin khong su dung danh sach yeu thich." });
+  }
+
+  const store = await readStore();
+  const product = getProductById(store, req.params.productId);
+  if (!product) {
+    return res.status(404).json({ message: "Khong tim thay san pham." });
+  }
+
+  const favoriteIndex = store.favorites.findIndex(
+    (item) => item.userId === req.user.id && item.productId === req.params.productId
+  );
+
+  if (favoriteIndex >= 0) {
+    store.favorites.splice(favoriteIndex, 1);
+  } else {
+    store.favorites.push({ userId: req.user.id, productId: req.params.productId });
+  }
+
+  await writeStore(store);
+  res.json({ favorites: getFavorites(store, req.user.id) });
+});
+
+app.post("/api/cart", authRequired, async (req, res) => {
+  if (req.user.role !== "user") {
+    return res.status(403).json({ message: "Admin khong co gio hang mua sam." });
+  }
+
+  const { productId, quantity = 1 } = req.body || {};
+  const store = await readStore();
+  const product = getProductById(store, productId);
+  if (!product) {
+    return res.status(404).json({ message: "Khong tim thay san pham." });
+  }
+
+  const existingItem = store.cartItems.find(
+    (item) => item.userId === req.user.id && item.productId === productId
+  );
+  const safeQuantity = Math.max(1, Number(quantity) || 1);
+
+  if (existingItem) {
+    existingItem.quantity += safeQuantity;
+  } else {
+    store.cartItems.push({ userId: req.user.id, productId, quantity: safeQuantity });
+  }
+
+  await writeStore(store);
+  res.json({ cart: getCart(store, req.user.id) });
+});
+
+app.patch("/api/cart/:productId", authRequired, async (req, res) => {
+  const store = await readStore();
+  const item = store.cartItems.find(
+    (cartItem) => cartItem.userId === req.user.id && cartItem.productId === req.params.productId
+  );
+
+  if (!item) {
+    return res.status(404).json({ message: "Khong tim thay san pham trong gio hang." });
+  }
+
+  item.quantity = Math.max(1, Number(req.body?.quantity) || 1);
+  await writeStore(store);
+  res.json({ cart: getCart(store, req.user.id) });
+});
+
+app.delete("/api/cart/:productId", authRequired, async (req, res) => {
+  const store = await readStore();
+  store.cartItems = store.cartItems.filter(
+    (item) => !(item.userId === req.user.id && item.productId === req.params.productId)
+  );
+  await writeStore(store);
+  res.json({ cart: getCart(store, req.user.id) });
+});
+
+app.post("/api/pc-builder", authRequired, async (req, res) => {
+  if (req.user.role !== "user") {
+    return res.status(403).json({ message: "Chuc nang build PC chi danh cho user." });
+  }
+
+  const store = await readStore();
+  const plan = recommendBuild(store.products, req.body?.budget, req.body?.purpose || []);
+  store.cartItems = store.cartItems.filter((item) => item.userId !== req.user.id);
+  for (const product of plan.items) {
+    store.cartItems.push({ userId: req.user.id, productId: product.id, quantity: 1 });
+  }
+  await writeStore(store);
+  res.json({ ...plan, cart: getCart(store, req.user.id) });
+});
+
+app.post("/api/orders", authRequired, async (req, res) => {
+  if (req.user.role !== "user") {
+    return res.status(403).json({ message: "Chuc nang mua hang chi danh cho user." });
+  }
+
+  const store = await readStore();
+  const cart = getCart(store, req.user.id);
+  if (!cart.length) {
+    return res.status(400).json({ message: "Gio hang dang trong." });
+  }
+
+  const fulfillmentMethod = String(req.body?.fulfillmentMethod || "pickup");
+  const paymentMethod = String(req.body?.paymentMethod || "pickup");
+  const address = String(req.body?.address || "").trim();
+
+  if (fulfillmentMethod === "delivery" && !address) {
+    return res.status(400).json({ message: "Vui long nhap dia chi giao hang." });
+  }
+
+  const subtotal = cart.reduce((sum, item) => sum + item.subtotal, 0);
+  const shippingFee = fulfillmentMethod === "delivery" ? 30000 : 0;
+  const total = subtotal + shippingFee;
+  const orderId = `ord-${Date.now()}`;
+  const pickupDate = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
+  const order = {
+    id: orderId,
+    userId: req.user.id,
+    username: req.user.username,
+    subtotal,
+    shippingFee,
+    total,
+    fulfillmentMethod,
+    pickupDate,
+    address,
+    paymentMethod,
+    paymentStatus: paymentMethod === "vnpay" ? "paid-sandbox" : "pending-cod",
+    status: fulfillmentMethod === "pickup" ? "Cho nhan tai store" : "Dang chuan bi giao",
+    createdAt: new Date().toISOString(),
+    items: cart.map((item) => ({
+      productId: item.productId,
+      quantity: item.quantity,
+      unitPrice: item.product.price,
+      subtotal: item.subtotal,
+      product: item.product,
+    })),
+  };
+
+  store.orders.push(order);
+  store.cartItems = store.cartItems.filter((item) => item.userId !== req.user.id);
+  await writeStore(store);
+
+  res.status(201).json({
+    message: "Thanh toan thanh cong, hoa don da duoc luu.",
+    order,
+    paymentUrl: paymentMethod === "vnpay" ? `https://sandbox.vnpayment.vn/paymentv2/vpcpay.html?order_id=${orderId}` : null,
+  });
+});
+
+app.get("/api/orders/:id", authRequired, async (req, res) => {
+  const store = await readStore();
+  const order = getOrders(store, req.user.id).find((item) => item.id === req.params.id);
+  if (!order) {
+    return res.status(404).json({ message: "Khong tim thay don hang." });
+  }
+  return res.json(order);
+});
+
+app.get("/api/orders/:id/stream", authRequired, async (req, res) => {
+  const store = await readStore();
+  const order = getOrders(store, req.user.id).find((item) => item.id === req.params.id);
+  if (!order) {
+    return res.status(404).json({ message: "Khong tim thay don hang." });
+  }
+
+  res.setHeader("Content-Type", "text/event-stream");
+  res.setHeader("Cache-Control", "no-cache");
+  res.setHeader("Connection", "keep-alive");
+  res.flushHeaders?.();
+
+  const pushEvent = () => {
+    const etaMinutes = Math.max(0, Math.round((new Date(order.pickupDate).getTime() - Date.now()) / 60000));
+    res.write(`data: ${JSON.stringify({ orderId: order.id, status: order.status, etaMinutes })}\n\n`);
+  };
+
+  pushEvent();
+  const timer = setInterval(pushEvent, 5000);
+  req.on("close", () => clearInterval(timer));
 });
 
 app.use((error, req, res, next) => {
-  const message = error && error.message ? error.message : "Server error";
   console.error(error);
-  res.status(500).json({ message });
+  res.status(500).json({ message: error?.message || "Server error" });
 });
 
-ensureUserStore()
+app.use((req, res) => {
+  res.status(404).json({ message: "API khong ton tai." });
+});
+
+Promise.all([ensureUserStore(), ensureStoreData()])
   .then(() => {
     app.listen(PORT, () => {
-      console.log(`Auth API is running at http://localhost:${PORT}`);
+      console.log(`Store API is running at http://localhost:${PORT}`);
     });
   })
   .catch((error) => {
