@@ -37,6 +37,10 @@
   line-height: 1;
 }
 
+.search-submit-btn i {
+  color: inherit;
+}
+
 .search-shell input {
   width: 100%;
   border-radius: 999px;
@@ -155,7 +159,8 @@
 .category-strip,
 .spec-list,
 .admin-list,
-.check-grid {
+.check-grid,
+.pagination-shell {
   display: grid;
   gap: 12px;
 }
@@ -164,6 +169,13 @@
   grid-column: 1 / -1;
   display: flex;
   flex-wrap: wrap;
+}
+
+.pagination-shell {
+  margin-top: 24px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .chip-button {
@@ -197,7 +209,9 @@
 
 .product-image-wrap,
 .feature-image-wrap,
-.detail-image-wrap {
+.detail-image-wrap,
+.admin-preview-wrap,
+.admin-list-image-wrap {
   overflow: hidden;
   border-radius: 20px;
   background: rgba(8, 14, 28, 0.85);
@@ -214,9 +228,21 @@
   aspect-ratio: 16 / 9;
 }
 
+.admin-preview-wrap {
+  max-width: 320px;
+}
+
+.admin-list-image-wrap {
+  width: 92px;
+  height: 72px;
+  margin-bottom: 8px;
+}
+
 .product-image,
 .feature-image,
-.detail-image {
+.detail-image,
+.admin-preview-image,
+.admin-list-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -231,6 +257,7 @@
 
 .product-description-clamp {
   display: -webkit-box;
+  line-clamp: 2;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
@@ -333,9 +360,8 @@
   box-shadow: 0 16px 40px rgba(17, 112, 228, 0.38);
 }
 
-.credentials-panel ul {
-  margin: 0;
-  padding-left: 1.1rem;
+.demo-credentials div {
+  margin-bottom: 10px;
 }
 
 .auth-banner-wrap {
@@ -399,11 +425,12 @@
   width: fit-content;
 }
 
-.order-items-panel {
-  padding: 0;
-  border: 0;
-  box-shadow: none;
-  background: transparent;
+.auth-tab-switch {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 24px;
+  justify-content: flex-start;
 }
 
 .small.text-secondary {
@@ -477,12 +504,20 @@
     min-width: 100%;
   }
 
-  .icon-actions {
+  .icon-actions,
+  .pagination-shell,
+  .auth-tab-switch {
     width: 100%;
   }
 
-  .icon-actions .btn {
+  .icon-actions .btn,
+  .pagination-shell .btn,
+  .auth-tab-switch .btn {
     flex: 1;
+  }
+
+  .cart-row {
+    gap: 12px;
   }
 
   .qty-input {
@@ -493,9 +528,18 @@
     min-height: 260px;
   }
 
+  .admin-list-image-wrap {
+    width: 100%;
+    height: 160px;
+  }
+
   .feature-card,
   .product-card {
     padding: 18px;
+  }
+
+  .footer-shell .row > div {
+    text-align: left;
   }
 }
 
@@ -529,32 +573,56 @@
     font-size: 1.7rem;
   }
 
+  .auth-action-row {
+    width: 100%;
+    flex-direction: column;
+  }
+
   .product-card {
-    padding: 12px;
+    padding: 7px;
     border-radius: 12px;
   }
 
   .product-image-wrap {
-    margin-bottom: 10px;
+    margin-bottom: 7px;
     border-radius: 10px;
   }
 
   .product-card h3 {
-    font-size: 0.82rem;
-    min-height: 36px;
+    font-size: 0.72rem;
+    min-height: 30px;
     margin-bottom: 4px;
-    line-height: 1.3;
+    line-height: 1.25;
   }
 
   .product-description-clamp {
-    font-size: 0.7rem;
-    min-height: 34px;
+    font-size: 0.64rem;
+    min-height: 28px;
     margin-bottom: 6px;
-    line-height: 1.35;
+    line-height: 1.3;
+  }
+
+  .product-meta {
+    gap: 4px;
+    margin-bottom: 6px;
+  }
+
+  .product-meta .badge,
+  .product-meta .small {
+    font-size: 0.54rem;
+    padding: 4px 6px;
   }
 
   .spec-list {
     display: none;
+  }
+
+  .product-bottom strong {
+    font-size: 0.66rem;
+  }
+
+  .product-bottom .small {
+    font-size: 0.56rem;
   }
 
   .icon-actions {
@@ -564,7 +632,7 @@
   .icon-actions .btn,
   .product-card .mt-3.d-flex.gap-2 .btn {
     padding: 4px 6px;
-    font-size: 0.68rem;
+    font-size: 0.6rem;
     border-radius: 10px !important;
   }
 
@@ -574,7 +642,30 @@
     margin-top: 8px !important;
   }
 
+  .product-card .mt-3.d-flex.gap-2 .btn {
+    width: 100%;
+  }
+
   .floating-card strong {
     font-size: 1.45rem;
+  }
+
+  .search-shell input {
+    padding-right: 14px;
+    font-size: 0.95rem;
+  }
+
+  .suggestion-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .auth-welcome {
+    font-size: 1.45rem !important;
+  }
+
+  .auth-subtext {
+    font-size: 0.95rem;
   }
 }

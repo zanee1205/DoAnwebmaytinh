@@ -783,6 +783,174 @@ app.get("/api/orders/:id/stream", authRequired, async (req, res) => {
   req.on("close", () => clearInterval(timer));
 });
 
+// PUT /api/admin/products/:id - full replace (Zanee Store uses PUT for edit)
+app.put("/api/admin/products/:id", authRequired, adminRequired, async (req, res) => {
+  const store = await readStore();
+  const index = store.products.findIndex((product) => product.id === req.params.id);
+
+  if (index < 0) {
+    return res.status(404).json({ message: "Khong tim thay san pham can cap nhat." });
+  }
+
+  const currentProduct = store.products[index];
+  const { errors, product } = buildProductPayload(req.body, currentProduct);
+  if (errors.length) {
+    return res.status(400).json({ message: errors.join(" ") });
+  }
+
+  const updatedProduct = {
+    ...currentProduct,
+    ...product,
+    sku: product.sku || currentProduct.sku || generateSku(store.products),
+  };
+
+  store.products[index] = updatedProduct;
+  store.categories = deriveCategories(store.products);
+  await writeStore(store);
+
+  return res.json(updatedProduct);
+});
+
+// PATCH /api/account/password - change own password
+app.patch("/api/account/password", authRequired, async (req, res) => {
+  const users = await readUsers();
+  const user = users.find((item) => item.id === req.user.id);
+
+  if (!user) {
+    return res.status(404).json({ message: "Khong tim thay tai khoan." });
+  }
+
+  if (!(await bcrypt.compare(String(req.body?.currentPassword || ""), user.passwordHash))) {
+    return res.status(400).json({ message: "Mat khau hien tai khong dung." });
+  }
+
+  user.passwordHash = await bcrypt.hash(String(req.body?.newPassword || ""), 10);
+  await writeUsers(users);
+
+  return res.json({ message: "Doi mat khau thanh cong." });
+});
+
+// GET /api/admin/stats - dashboard statistics
+app.get("/api/admin/stats", authRequired, adminRequired, async (req, res) => {
+  const [users, store] = await Promise.all([readUsers(), readStore()]);
+
+  return res.json({
+    totalUsers: users.filter((user) => user.role === "user").length,
+    totalAdmins: users.filter((user) => user.role === "admin").length,
+    totalProducts: store.products.length,
+    totalOrders: store.orders.length,
+    totalRevenue: store.orders.reduce((sum, order) => sum + Number(order.total || 0), 0),
+  });
+});
+
+// GET /api/admin/users - list all users
+app.get("/api/admin/users", authRequired, adminRequired, async (req, res) => {
+  const users = await readUsers();
+  return res.json(users.map(sanitizeUser).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)));
+});
+
+// PATCH /api/admin/users/:id/toggle-lock - toggle user lock status
+app.patch("/api/admin/users/:id/toggle-lock", authRequired, adminRequired, async (req, res) => {
+  const users = await readUsers();
+  const user = users.find((item) => item.id === req.params.id);
+
+  if (!user) {
+    return res.status(404).json({ message: "Khong tim thay nguoi dung." });
+  }
+
+  if (user.role === "admin") {
+    return res.status(400).json({ message: "Khong the khoa tai khoan admin." });
+  }
+
+  user.isLocked = !user.isLocked;
+  await writeUsers(users);
+
+  return res.json({ user: sanitizeUser(user) });
+});
+
+// GET /api/admin/orders - all orders for admin
+app.get("/api/admin/orders", authRequired, adminRequired, async (req, res) => {
+  const store = await readStore();
+  const sorted = [...store.orders].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+  return res.json(sorted);
+});
+
+// GET /api/admin/categories - list all categories
+app.get("/api/admin/categories", authRequired, adminRequired, async (req, res) => {
+  const store = await readStore();
+  return res.json(store.categories);
+});
+
+// POST /api/admin/categories - create new category
+app.post("/api/admin/categories", authRequired, adminRequired, async (req, res) => {
+  const name = String(req.body?.name || "").trim();
+  if (!name) {
+    return res.status(400).json({ message: "Ten danh muc khong duoc de trong." });
+  }
+
+  const store = await readStore();
+  if (store.categories.includes(name)) {
+    return res.status(409).json({ message: "Danh muc da ton tai." });
+  }
+
+  store.categories.push(name);
+  await writeStore(store);
+
+  return res.status(201).json(store.categories);
+});
+
+// PUT /api/admin/categories/:name - rename category
+app.put("/api/admin/categories/:name", authRequired, adminRequired, async (req, res) => {
+  const oldName = decodeURIComponent(req.params.name);
+  const newName = String(req.body?.name || "").trim();
+
+  if (!newName) {
+    return res.status(400).json({ message: "Ten moi khong duoc de trong." });
+  }
+
+  const store = await readStore();
+  const idx = store.categories.indexOf(oldName);
+
+  if (idx < 0) {
+    return res.status(404).json({ message: "Khong tim thay danh muc." });
+  }
+
+  store.categories[idx] = newName;
+  store.products = store.products.map((product) => ({
+    ...product,
+    category: product.category === oldName ? newName : product.category,
+  }));
+  await writeStore(store);
+
+  return res.json(store.categories);
+});
+
+// DELETE /api/admin/categories/:name - delete category, migrate products to "Khac"
+app.delete("/api/admin/categories/:name", authRequired, adminRequired, async (req, res) => {
+  const name = decodeURIComponent(req.params.name);
+  const store = await readStore();
+  const idx = store.categories.indexOf(name);
+
+  if (idx < 0) {
+    return res.status(404).json({ message: "Khong tim thay danh muc." });
+  }
+
+  const fallback = "Khac";
+  if (!store.categories.includes(fallback)) {
+    store.categories.push(fallback);
+  }
+
+  store.products = store.products.map((product) => ({
+    ...product,
+    category: product.category === name ? fallback : product.category,
+  }));
+
+  store.categories.splice(idx, 1);
+  await writeStore(store);
+
+  return res.json(store.categories);
+});
+
 app.use((error, req, res, next) => {
   console.error(error);
   res.status(500).json({ message: error?.message || "Server error" });

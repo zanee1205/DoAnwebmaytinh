@@ -14,7 +14,7 @@
     "username": "minhdev",
     "email": "minhdev@zaneestore.local",
     "phone": "0900000002",
-    "passwordHash": "$2b$10$8xyN3y2wJayuja0nsUXTLOHHaIjZSyz0.ZDAl4a9XCdT.zmTg8v9y",
+    "passwordHash": "$2b$10$WQSNSZtS7L4fhHrgOwrN8.oHo4rfOQGRwf0w7tmtD/ceTTdOmA16W",
     "role": "user",
     "isLocked": false,
     "createdAt": "2026-03-24T10:44:07.192Z"
