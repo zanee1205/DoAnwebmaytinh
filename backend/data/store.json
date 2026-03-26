@@ -1,0 +1,926 @@
+{
+  "categories": [
+    "RAM",
+    "SSD",
+    "HDD",
+    "CPU",
+    "Mainboard",
+    "GPU",
+    "Case",
+    "Cooling",
+    "PSU",
+    "Monitor",
+    "Laptop",
+    "Accessory",
+    "Khac"
+  ],
+  "products": [
+    {
+      "id": "prd-1",
+      "sku": "ZNS-0001",
+      "image": "https://images.unsplash.com/photo-1500000000000?auto=format&fit=crop&w=900&q=80",
+      "name": "Corsair Vengeance 16GB DDR4 3200",
+      "category": "RAM",
+      "price": 1190000,
+      "warrantyMonths": 6,
+      "stock": 25,
+      "specs": [
+        "16GB (2x8GB)",
+        "DDR4 3200MHz",
+        "CL16"
+      ],
+      "description": "Bộ RAM phổ thông ổn định cho gaming và làm việc văn phòng, tương thích tốt với đa số mainboard B560, B660 và B760."
+    },
+    {
+      "id": "prd-2",
+      "sku": "ZNS-0002",
+      "image": "https://images.unsplash.com/photo-1500000000001?auto=format&fit=crop&w=900&q=80",
+      "name": "Kingston Fury Beast 32GB DDR4 3600",
+      "category": "RAM",
+      "price": 2090000,
+      "warrantyMonths": 9,
+      "stock": 16,
+      "specs": [
+        "32GB (2x16GB)",
+        "DDR4 3600MHz",
+        "Tản nhiệt nhôm"
+      ],
+      "description": "Lựa chọn cân bằng cho dân thiết kế, streamer và game thủ cần đa nhiệm mượt mà trong thời gian dài."
+    },
+    {
+      "id": "prd-3",
+      "sku": "ZNS-0003",
+      "image": "https://images.unsplash.com/photo-1500000000002?auto=format&fit=crop&w=900&q=80",
+      "name": "G.Skill Ripjaws 16GB DDR5 5600",
+      "category": "RAM",
+      "price": 1890000,
+      "warrantyMonths": 9,
+      "stock": 18,
+      "specs": [
+        "16GB",
+        "DDR5 5600MHz",
+        "Điện áp thấp"
+      ],
+      "description": "Thanh RAM DDR5 thế hệ mới cho nền tảng Intel và AMD đời mới, tối ưu băng thông và tiết kiệm điện năng."
+    },
+    {
+      "id": "prd-4",
+      "sku": "ZNS-0004",
+      "image": "https://images.unsplash.com/photo-1500000000003?auto=format&fit=crop&w=900&q=80",
+      "name": "TeamGroup T-Force Delta RGB 32GB DDR5 6000",
+      "category": "RAM",
+      "price": 3290000,
+      "warrantyMonths": 12,
+      "stock": 12,
+      "specs": [
+        "32GB (2x16GB)",
+        "DDR5 6000MHz",
+        "RGB Sync"
+      ],
+      "description": "Bộ nhớ hiệu năng cao cho cấu hình gaming cao cấp, có LED RGB đồng bộ với hệ sinh thái mainboard phổ biến."
+    },
+    {
+      "id": "prd-5",
+      "sku": "ZNS-0005",
+      "image": "https://images.unsplash.com/photo-1500000000004?auto=format&fit=crop&w=900&q=80",
+      "name": "Samsung 970 EVO Plus 500GB",
+      "category": "SSD",
+      "price": 1490000,
+      "warrantyMonths": 6,
+      "stock": 20,
+      "specs": [
+        "NVMe PCIe 3.0",
+        "3500MB/s",
+        "M.2 2280"
+      ],
+      "description": "Ổ SSD NVMe tốc độ cao, phù hợp làm ổ cài hệ điều hành và ứng dụng chính cho máy làm việc hoặc gaming."
+    },
+    {
+      "id": "prd-6",
+      "sku": "ZNS-0006",
+      "image": "https://images.unsplash.com/photo-1500000000005?auto=format&fit=crop&w=900&q=80",
+      "name": "WD Black SN770 1TB",
+      "category": "SSD",
+      "price": 1990000,
+      "warrantyMonths": 9,
+      "stock": 22,
+      "specs": [
+        "NVMe PCIe 4.0",
+        "5150MB/s",
+        "Game Mode"
+      ],
+      "description": "Ổ SSD hiệu năng cao cho game và phần mềm nặng, khởi động cực nhanh và tải dữ liệu mượt."
+    },
+    {
+      "id": "prd-7",
+      "sku": "ZNS-0007",
+      "image": "https://images.unsplash.com/photo-1500000000006?auto=format&fit=crop&w=900&q=80",
+      "name": "Crucial P3 Plus 2TB",
+      "category": "SSD",
+      "price": 3490000,
+      "warrantyMonths": 12,
+      "stock": 10,
+      "specs": [
+        "NVMe PCIe 4.0",
+        "2TB",
+        "M.2 2280"
+      ],
+      "description": "Dung lượng lớn cho editor video, lưu project nặng và build workstation cần không gian làm việc rộng."
+    },
+    {
+      "id": "prd-8",
+      "sku": "ZNS-0008",
+      "image": "https://images.unsplash.com/photo-1500000000007?auto=format&fit=crop&w=900&q=80",
+      "name": "Kingston NV3 500GB",
+      "category": "SSD",
+      "price": 990000,
+      "warrantyMonths": 6,
+      "stock": 26,
+      "specs": [
+        "NVMe PCIe 4.0",
+        "Gen4 entry",
+        "Bền bỉ"
+      ],
+      "description": "Mẫu SSD giá tốt cho người dùng nâng cấp từ HDD sang NVMe để cải thiện tốc độ phản hồi toàn hệ thống."
+    },
+    {
+      "id": "prd-9",
+      "sku": "ZNS-0009",
+      "image": "https://images.unsplash.com/photo-1500000000008?auto=format&fit=crop&w=900&q=80",
+      "name": "Seagate Barracuda 1TB",
+      "category": "HDD",
+      "price": 1090000,
+      "warrantyMonths": 6,
+      "stock": 28,
+      "specs": [
+        "7200RPM",
+        "64MB Cache",
+        "SATA III"
+      ],
+      "description": "Ổ cứng truyền thống phù hợp lưu dữ liệu, phim, tài liệu và backup cho dàn PC gia đình."
+    },
+    {
+      "id": "prd-10",
+      "sku": "ZNS-0010",
+      "image": "https://images.unsplash.com/photo-1500000000009?auto=format&fit=crop&w=900&q=80",
+      "name": "Western Digital Blue 2TB",
+      "category": "HDD",
+      "price": 1590000,
+      "warrantyMonths": 9,
+      "stock": 15,
+      "specs": [
+        "5400RPM",
+        "Dung lượng 2TB",
+        "Tiết kiệm điện"
+      ],
+      "description": "Giải pháp lưu trữ dài hạn cho người dùng cần nhiều không gian mà vẫn giữ mức chi phí hợp lý."
+    },
+    {
+      "id": "prd-11",
+      "sku": "ZNS-0011",
+      "image": "https://images.unsplash.com/photo-1500000000010?auto=format&fit=crop&w=900&q=80",
+      "name": "Intel Core i3-12100F",
+      "category": "CPU",
+      "price": 2490000,
+      "warrantyMonths": 9,
+      "stock": 17,
+      "specs": [
+        "4 nhân 8 luồng",
+        "Turbo 4.3GHz",
+        "Socket LGA1700"
+      ],
+      "description": "CPU phổ thông hiệu năng đơn nhân mạnh, rất phù hợp cho dàn học tập, làm việc và gaming eSports."
+    },
+    {
+      "id": "prd-12",
+      "sku": "ZNS-0012",
+      "image": "https://images.unsplash.com/photo-1500000000011?auto=format&fit=crop&w=900&q=80",
+      "name": "Intel Core i5-13400F",
+      "category": "CPU",
+      "price": 4890000,
+      "warrantyMonths": 12,
+      "stock": 15,
+      "specs": [
+        "10 nhân 16 luồng",
+        "Turbo 4.6GHz",
+        "Tiết kiệm điện"
+      ],
+      "description": "Bộ xử lý tầm trung toàn diện, xử lý tốt gaming, code và chỉnh sửa nội dung cơ bản."
+    },
+    {
+      "id": "prd-13",
+      "sku": "ZNS-0013",
+      "image": "https://images.unsplash.com/photo-1500000000012?auto=format&fit=crop&w=900&q=80",
+      "name": "AMD Ryzen 5 5600",
+      "category": "CPU",
+      "price": 3290000,
+      "warrantyMonths": 9,
+      "stock": 19,
+      "specs": [
+        "6 nhân 12 luồng",
+        "Socket AM4",
+        "Hiệu năng ổn định"
+      ],
+      "description": "CPU quốc dân cho phân khúc gaming tầm trung, dễ phối ghép linh kiện và tối ưu chi phí."
+    },
+    {
+      "id": "prd-14",
+      "sku": "ZNS-0014",
+      "image": "https://images.unsplash.com/photo-1500000000013?auto=format&fit=crop&w=900&q=80",
+      "name": "AMD Ryzen 7 7700",
+      "category": "CPU",
+      "price": 7690000,
+      "warrantyMonths": 12,
+      "stock": 9,
+      "specs": [
+        "8 nhân 16 luồng",
+        "Zen 4",
+        "Socket AM5"
+      ],
+      "description": "Phù hợp cho streamer, editor, dân IT cần hiệu suất mạnh hơn khi chạy nhiều tác vụ song song."
+    },
+    {
+      "id": "prd-15",
+      "sku": "ZNS-0015",
+      "image": "https://images.unsplash.com/photo-1500000000014?auto=format&fit=crop&w=900&q=80",
+      "name": "MSI PRO B760M-A WIFI DDR4",
+      "category": "Mainboard",
+      "price": 3290000,
+      "warrantyMonths": 12,
+      "stock": 14,
+      "specs": [
+        "mATX",
+        "Wi-Fi",
+        "DDR4"
+      ],
+      "description": "Mainboard Intel đa dụng có Wi-Fi tích hợp, thích hợp cho case gọn và văn phòng hiện đại."
+    },
+    {
+      "id": "prd-16",
+      "sku": "ZNS-0016",
+      "image": "https://images.unsplash.com/photo-1500000000015?auto=format&fit=crop&w=900&q=80",
+      "name": "ASUS TUF Gaming B650M-Plus",
+      "category": "Mainboard",
+      "price": 4990000,
+      "warrantyMonths": 12,
+      "stock": 11,
+      "specs": [
+        "AM5",
+        "DDR5",
+        "TUF Armor"
+      ],
+      "description": "Bo mạch bền bỉ cho cấu hình AMD hiện đại, hỗ trợ RAM DDR5 và nhiều cổng mở rộng."
+    },
+    {
+      "id": "prd-17",
+      "sku": "ZNS-0017",
+      "image": "https://images.unsplash.com/photo-1500000000016?auto=format&fit=crop&w=900&q=80",
+      "name": "Gigabyte H610M H V2",
+      "category": "Mainboard",
+      "price": 1790000,
+      "warrantyMonths": 6,
+      "stock": 20,
+      "specs": [
+        "LGA1700",
+        "mATX",
+        "Giá tốt"
+      ],
+      "description": "Lựa chọn tiết kiệm cho các cấu hình Intel phổ thông hướng đến học tập và công việc cơ bản."
+    },
+    {
+      "id": "prd-18",
+      "sku": "ZNS-0018",
+      "image": "https://images.unsplash.com/photo-1500000000017?auto=format&fit=crop&w=900&q=80",
+      "name": "ASRock B550 Steel Legend",
+      "category": "Mainboard",
+      "price": 2890000,
+      "warrantyMonths": 9,
+      "stock": 13,
+      "specs": [
+        "AM4",
+        "PCIe 4.0",
+        "VRM tản nhiệt"
+      ],
+      "description": "Mainboard đẹp mắt và ổn định cho dàn Ryzen trung cấp, hỗ trợ tốt gaming lẫn làm việc."
+    },
+    {
+      "id": "prd-19",
+      "sku": "ZNS-0019",
+      "image": "https://images.unsplash.com/photo-1500000000018?auto=format&fit=crop&w=900&q=80",
+      "name": "NVIDIA GeForce RTX 4060 8GB",
+      "category": "GPU",
+      "price": 8990000,
+      "warrantyMonths": 12,
+      "stock": 10,
+      "specs": [
+        "DLSS 3",
+        "8GB GDDR6",
+        "1080p Ultra"
+      ],
+      "description": "Card đồ họa mới cho game thủ chơi full HD/2K, render cơ bản và livestream nhẹ nhàng."
+    },
+    {
+      "id": "prd-20",
+      "sku": "ZNS-0020",
+      "image": "https://images.unsplash.com/photo-1500000000019?auto=format&fit=crop&w=900&q=80",
+      "name": "MSI GeForce RTX 4070 Super 12GB",
+      "category": "GPU",
+      "price": 16990000,
+      "warrantyMonths": 12,
+      "stock": 8,
+      "specs": [
+        "12GB GDDR6X",
+        "Ray Tracing",
+        "1440p High"
+      ],
+      "description": "Dòng GPU cao cấp cân bằng cho designer, developer AI entry và game thủ 2K/4K."
+    },
+    {
+      "id": "prd-21",
+      "sku": "ZNS-0021",
+      "image": "https://images.unsplash.com/photo-1500000000020?auto=format&fit=crop&w=900&q=80",
+      "name": "AMD Radeon RX 7600 8GB",
+      "category": "GPU",
+      "price": 7590000,
+      "warrantyMonths": 9,
+      "stock": 10,
+      "specs": [
+        "8GB GDDR6",
+        "FSR",
+        "1080p mạnh"
+      ],
+      "description": "Card đồ họa AMD tối ưu hiệu năng trên giá thành cho nhu cầu gaming phổ biến hiện nay."
+    },
+    {
+      "id": "prd-22",
+      "sku": "ZNS-0022",
+      "image": "https://images.unsplash.com/photo-1500000000021?auto=format&fit=crop&w=900&q=80",
+      "name": "ASUS Dual RTX 3050 6GB",
+      "category": "GPU",
+      "price": 5190000,
+      "warrantyMonths": 9,
+      "stock": 12,
+      "specs": [
+        "6GB GDDR6",
+        "Thiết kế 2 fan",
+        "Tiết kiệm điện"
+      ],
+      "description": "Mẫu GPU dễ tiếp cận cho người dùng nâng cấp từ đồ họa tích hợp sang máy chiến game nhẹ."
+    },
+    {
+      "id": "prd-23",
+      "sku": "ZNS-0023",
+      "image": "https://images.unsplash.com/photo-1500000000022?auto=format&fit=crop&w=900&q=80",
+      "name": "NZXT H5 Flow",
+      "category": "Case",
+      "price": 2190000,
+      "warrantyMonths": 6,
+      "stock": 14,
+      "specs": [
+        "Mid Tower",
+        "Airflow tốt",
+        "Kính cường lực"
+      ],
+      "description": "Case gaming đẹp mắt, thoáng khí và dễ đi dây cho các dàn máy hướng thẩm mỹ hiện đại."
+    },
+    {
+      "id": "prd-24",
+      "sku": "ZNS-0024",
+      "image": "https://images.unsplash.com/photo-1500000000023?auto=format&fit=crop&w=900&q=80",
+      "name": "Xigmatek Cubi M",
+      "category": "Case",
+      "price": 890000,
+      "warrantyMonths": 3,
+      "stock": 19,
+      "specs": [
+        "mATX",
+        "Kích thước gọn",
+        "Phù hợp văn phòng"
+      ],
+      "description": "Case tiết kiệm diện tích dành cho máy văn phòng, học tập hoặc cấu hình mini gọn gàng."
+    },
+    {
+      "id": "prd-25",
+      "sku": "ZNS-0025",
+      "image": "https://images.unsplash.com/photo-1500000000024?auto=format&fit=crop&w=900&q=80",
+      "name": "Lian Li Lancool 216",
+      "category": "Case",
+      "price": 2690000,
+      "warrantyMonths": 9,
+      "stock": 11,
+      "specs": [
+        "Airflow premium",
+        "Hỗ trợ radiator lớn",
+        "Đi dây rộng"
+      ],
+      "description": "Case hiệu suất tản gió cao cho các dàn gaming trung cao cấp cần sự mát mẻ và sạch sẽ."
+    },
+    {
+      "id": "prd-26",
+      "sku": "ZNS-0026",
+      "image": "https://images.unsplash.com/photo-1500000000025?auto=format&fit=crop&w=900&q=80",
+      "name": "Cooler Master MasterBox TD500",
+      "category": "Case",
+      "price": 2490000,
+      "warrantyMonths": 9,
+      "stock": 12,
+      "specs": [
+        "ARGB",
+        "Mặt lưới",
+        "Kính cường lực"
+      ],
+      "description": "Thùng máy phong cách gaming mạnh mẽ với ARGB nổi bật và khả năng nâng cấp linh hoạt."
+    },
+    {
+      "id": "prd-27",
+      "sku": "ZNS-0027",
+      "image": "https://images.unsplash.com/photo-1500000000026?auto=format&fit=crop&w=900&q=80",
+      "name": "DeepCool AG400",
+      "category": "Cooling",
+      "price": 690000,
+      "warrantyMonths": 6,
+      "stock": 24,
+      "specs": [
+        "Tản khí",
+        "4 ống đồng",
+        "CPU phổ thông"
+      ],
+      "description": "Tản khí quốc dân dễ lắp, đủ mát cho CPU tầm trung khi chơi game và làm việc hàng ngày."
+    },
+    {
+      "id": "prd-28",
+      "sku": "ZNS-0028",
+      "image": "https://images.unsplash.com/photo-1500000000027?auto=format&fit=crop&w=900&q=80",
+      "name": "Thermalright Peerless Assassin 120",
+      "category": "Cooling",
+      "price": 1190000,
+      "warrantyMonths": 9,
+      "stock": 13,
+      "specs": [
+        "Dual tower",
+        "2 fan 120mm",
+        "Hiệu suất cao"
+      ],
+      "description": "Tản khí hiệu năng cao dành cho CPU mạnh hơn, cân bằng giữa nhiệt độ và độ ồn."
+    },
+    {
+      "id": "prd-29",
+      "sku": "ZNS-0029",
+      "image": "https://images.unsplash.com/photo-1500000000028?auto=format&fit=crop&w=900&q=80",
+      "name": "NZXT Kraken 240 RGB",
+      "category": "Cooling",
+      "price": 3490000,
+      "warrantyMonths": 12,
+      "stock": 8,
+      "specs": [
+        "AIO 240mm",
+        "RGB",
+        "Pump yên tĩnh"
+      ],
+      "description": "Tản nhiệt nước all-in-one cho cấu hình cao cấp, mang lại hiệu năng và thẩm mỹ tốt."
+    },
+    {
+      "id": "prd-30",
+      "sku": "ZNS-0030",
+      "image": "https://images.unsplash.com/photo-1500000000029?auto=format&fit=crop&w=900&q=80",
+      "name": "Cooler Master Hyper 212",
+      "category": "Cooling",
+      "price": 890000,
+      "warrantyMonths": 6,
+      "stock": 18,
+      "specs": [
+        "Tản khí tower",
+        "120mm PWM",
+        "Dễ lắp"
+      ],
+      "description": "Mẫu tản quen thuộc cho người dùng muốn nâng cấp nhiệt độ tốt hơn so với tản stock."
+    },
+    {
+      "id": "prd-31",
+      "sku": "ZNS-0031",
+      "image": "https://images.unsplash.com/photo-1500000000030?auto=format&fit=crop&w=900&q=80",
+      "name": "Corsair CX650 650W Bronze",
+      "category": "PSU",
+      "price": 1590000,
+      "warrantyMonths": 9,
+      "stock": 16,
+      "specs": [
+        "80 Plus Bronze",
+        "650W",
+        "Bảo vệ điện áp"
+      ],
+      "description": "Nguồn ổn định cho dàn gaming tầm trung với mức tiêu thụ điện vừa phải và độ bền khá."
+    },
+    {
+      "id": "prd-32",
+      "sku": "ZNS-0032",
+      "image": "https://images.unsplash.com/photo-1500000000031?auto=format&fit=crop&w=900&q=80",
+      "name": "Cooler Master MWE 750 Gold V2",
+      "category": "PSU",
+      "price": 2390000,
+      "warrantyMonths": 12,
+      "stock": 12,
+      "specs": [
+        "80 Plus Gold",
+        "750W",
+        "Semi modular"
+      ],
+      "description": "Nguồn chất lượng cao phù hợp cho cấu hình có GPU rời mạnh và yêu cầu vận hành ổn định."
+    },
+    {
+      "id": "prd-33",
+      "sku": "ZNS-0033",
+      "image": "https://images.unsplash.com/photo-1500000000032?auto=format&fit=crop&w=900&q=80",
+      "name": "Antec Atom 550W",
+      "category": "PSU",
+      "price": 1090000,
+      "warrantyMonths": 6,
+      "stock": 18,
+      "specs": [
+        "550W",
+        "Active PFC",
+        "Giá tốt"
+      ],
+      "description": "Nguồn phổ thông cho máy văn phòng, học tập và dàn không dùng card đồ họa quá mạnh."
+    },
+    {
+      "id": "prd-34",
+      "sku": "ZNS-0034",
+      "image": "https://images.unsplash.com/photo-1500000000033?auto=format&fit=crop&w=900&q=80",
+      "name": "ASUS TUF 850W Gold",
+      "category": "PSU",
+      "price": 3190000,
+      "warrantyMonths": 12,
+      "stock": 9,
+      "specs": [
+        "850W",
+        "80 Plus Gold",
+        "Chuẩn ATX 3.0"
+      ],
+      "description": "Nguồn cao cấp cho các bộ máy hiệu năng lớn cần dư công suất và tính ổn định lâu dài."
+    },
+    {
+      "id": "prd-35",
+      "sku": "ZNS-0035",
+      "image": "https://images.unsplash.com/photo-1500000000034?auto=format&fit=crop&w=900&q=80",
+      "name": "LG UltraGear 24GN600 24 inch",
+      "category": "Monitor",
+      "price": 3190000,
+      "warrantyMonths": 9,
+      "stock": 15,
+      "specs": [
+        "FHD 144Hz",
+        "IPS",
+        "1ms"
+      ],
+      "description": "Màn hình gaming 24 inch cho trải nghiệm mượt trong eSports và làm việc đa nhiệm hằng ngày."
+    },
+    {
+      "id": "prd-36",
+      "sku": "ZNS-0036",
+      "image": "https://images.unsplash.com/photo-1500000000035?auto=format&fit=crop&w=900&q=80",
+      "name": "Samsung Odyssey G5 27 inch",
+      "category": "Monitor",
+      "price": 5290000,
+      "warrantyMonths": 12,
+      "stock": 11,
+      "specs": [
+        "2K 165Hz",
+        "Cong",
+        "HDR"
+      ],
+      "description": "Màn hình 2K độ cong nhẹ phù hợp game thủ thích không gian hiển thị lớn và đắm chìm hơn."
+    },
+    {
+      "id": "prd-37",
+      "sku": "ZNS-0037",
+      "image": "https://images.unsplash.com/photo-1500000000036?auto=format&fit=crop&w=900&q=80",
+      "name": "Dell P2422H 24 inch",
+      "category": "Monitor",
+      "price": 3890000,
+      "warrantyMonths": 9,
+      "stock": 14,
+      "specs": [
+        "IPS",
+        "Full HD",
+        "Văn phòng cao cấp"
+      ],
+      "description": "Màn hình thiên về văn phòng với màu sắc ổn định, chân đế linh hoạt và độ bền tốt."
+    },
+    {
+      "id": "prd-38",
+      "sku": "ZNS-0038",
+      "image": "https://images.unsplash.com/photo-1500000000037?auto=format&fit=crop&w=900&q=80",
+      "name": "AOC 22B2HN 22 inch",
+      "category": "Monitor",
+      "price": 2190000,
+      "warrantyMonths": 6,
+      "stock": 20,
+      "specs": [
+        "Full HD",
+        "VA",
+        "Thiết kế mỏng"
+      ],
+      "description": "Màn hình tiết kiệm chi phí cho học tập, lướt web, bán hàng và làm việc cơ bản."
+    },
+    {
+      "id": "prd-39",
+      "sku": "ZNS-0039",
+      "image": "https://images.unsplash.com/photo-1500000000038?auto=format&fit=crop&w=900&q=80",
+      "name": "Acer Aspire 7 Gaming",
+      "category": "Laptop",
+      "price": 16990000,
+      "warrantyMonths": 12,
+      "stock": 9,
+      "specs": [
+        "Ryzen 5",
+        "RTX 3050",
+        "16GB RAM"
+      ],
+      "description": "Laptop gaming tầm trung cho sinh viên IT, chơi game phổ biến và làm đồ họa cơ bản."
+    },
+    {
+      "id": "prd-40",
+      "sku": "ZNS-0040",
+      "image": "https://images.unsplash.com/photo-1500000000039?auto=format&fit=crop&w=900&q=80",
+      "name": "ASUS Vivobook 15 OLED",
+      "category": "Laptop",
+      "price": 18990000,
+      "warrantyMonths": 12,
+      "stock": 7,
+      "specs": [
+        "Core i5",
+        "OLED",
+        "512GB SSD"
+      ],
+      "description": "Laptop mỏng nhẹ màn hình đẹp, phù hợp dân văn phòng, marketing và sáng tạo nội dung nhẹ."
+    },
+    {
+      "id": "prd-41",
+      "sku": "ZNS-0041",
+      "image": "https://images.unsplash.com/photo-1500000000040?auto=format&fit=crop&w=900&q=80",
+      "name": "Lenovo LOQ 15",
+      "category": "Laptop",
+      "price": 21990000,
+      "warrantyMonths": 12,
+      "stock": 8,
+      "specs": [
+        "Core i7",
+        "RTX 4050",
+        "144Hz"
+      ],
+      "description": "Laptop hiệu năng cao cho gaming, lập trình và chạy đa nhiệm với hệ thống tản tốt."
+    },
+    {
+      "id": "prd-42",
+      "sku": "ZNS-0042",
+      "image": "https://images.unsplash.com/photo-1500000000041?auto=format&fit=crop&w=900&q=80",
+      "name": "HP 245 G10",
+      "category": "Laptop",
+      "price": 10990000,
+      "warrantyMonths": 9,
+      "stock": 13,
+      "specs": [
+        "Ryzen 3",
+        "8GB RAM",
+        "Office"
+      ],
+      "description": "Mẫu laptop tiết kiệm cho sinh viên và nhân viên văn phòng cần thiết bị cơ động cơ bản."
+    },
+    {
+      "id": "prd-43",
+      "sku": "ZNS-0043",
+      "image": "https://images.unsplash.com/photo-1500000000042?auto=format&fit=crop&w=900&q=80",
+      "name": "Logitech G102 Lightsync",
+      "category": "Accessory",
+      "price": 420000,
+      "warrantyMonths": 3,
+      "stock": 40,
+      "specs": [
+        "Mouse gaming",
+        "RGB",
+        "8000 DPI"
+      ],
+      "description": "Chuột gaming quốc dân với form cầm dễ chịu, phù hợp học tập, làm việc và chơi game."
+    },
+    {
+      "id": "prd-44",
+      "sku": "ZNS-0044",
+      "image": "https://images.unsplash.com/photo-1500000000043?auto=format&fit=crop&w=900&q=80",
+      "name": "Keychron C3 Pro",
+      "category": "Accessory",
+      "price": 1290000,
+      "warrantyMonths": 6,
+      "stock": 18,
+      "specs": [
+        "Bàn phím cơ",
+        "Hot-swap",
+        "Layout TKL"
+      ],
+      "description": "Bàn phím cơ cho người dùng yêu thích gõ êm, độ ổn định cao và khả năng tùy biến switch."
+    },
+    {
+      "id": "prd-45",
+      "sku": "ZNS-0045",
+      "image": "https://images.unsplash.com/photo-1500000000044?auto=format&fit=crop&w=900&q=80",
+      "name": "Razer BlackShark V2 X",
+      "category": "Accessory",
+      "price": 1290000,
+      "warrantyMonths": 6,
+      "stock": 17,
+      "specs": [
+        "Headset 7.1",
+        "Mic rõ",
+        "Nhẹ"
+      ],
+      "description": "Tai nghe chơi game đeo lâu thoải mái, âm thanh rõ ràng khi chơi FPS và họp online."
+    },
+    {
+      "id": "prd-46",
+      "sku": "ZNS-0046",
+      "image": "https://images.unsplash.com/photo-1500000000045?auto=format&fit=crop&w=900&q=80",
+      "name": "Logitech C920 HD Pro",
+      "category": "Accessory",
+      "price": 1890000,
+      "warrantyMonths": 9,
+      "stock": 12,
+      "specs": [
+        "Webcam 1080p",
+        "Mic kép",
+        "Streaming"
+      ],
+      "description": "Webcam nổi tiếng cho nhu cầu học online, họp trực tuyến và livestream bán hàng."
+    },
+    {
+      "id": "prd-47",
+      "sku": "ZNS-0047",
+      "image": "https://images.unsplash.com/photo-1500000000046?auto=format&fit=crop&w=900&q=80",
+      "name": "TP-Link Archer T3U",
+      "category": "Accessory",
+      "price": 590000,
+      "warrantyMonths": 3,
+      "stock": 25,
+      "specs": [
+        "USB Wi-Fi",
+        "AC1300",
+        "Dual band"
+      ],
+      "description": "Thiết bị mở rộng kết nối Wi-Fi nhanh gọn cho PC không có card mạng không dây tích hợp."
+    },
+    {
+      "id": "prd-48",
+      "sku": "ZNS-0048",
+      "image": "https://images.unsplash.com/photo-1500000000047?auto=format&fit=crop&w=900&q=80",
+      "name": "Intel Arc A750 8GB",
+      "category": "GPU",
+      "price": 6990000,
+      "warrantyMonths": 9,
+      "stock": 8,
+      "specs": [
+        "8GB GDDR6",
+        "XeSS",
+        "Giải mã AV1"
+      ],
+      "description": "Card đồ họa phù hợp người dùng thích công nghệ mới, dựng nội dung và chơi game phổ thông."
+    },
+    {
+      "id": "prd-49",
+      "sku": "ZNS-0049",
+      "image": "https://images.unsplash.com/photo-1500000000048?auto=format&fit=crop&w=900&q=80",
+      "name": "ADATA XPG S70 Blade 1TB",
+      "category": "SSD",
+      "price": 2290000,
+      "warrantyMonths": 12,
+      "stock": 14,
+      "specs": [
+        "PCIe 4.0",
+        "7400MB/s",
+        "Heatsink"
+      ],
+      "description": "SSD tốc độ rất cao cho workstation mini và các máy cần đọc ghi project liên tục."
+    },
+    {
+      "id": "prd-50",
+      "sku": "ZNS-0050",
+      "image": "https://images.unsplash.com/photo-1500000000049?auto=format&fit=crop&w=900&q=80",
+      "name": "be quiet! Pure Rock 2",
+      "category": "Cooling",
+      "price": 990000,
+      "warrantyMonths": 6,
+      "stock": 10,
+      "specs": [
+        "Tản khí yên tĩnh",
+        "150W TDP",
+        "Thiết kế đen"
+      ],
+      "description": "Tản khí chú trọng độ êm, phù hợp môi trường làm việc cần yên tĩnh và bền bỉ."
+    },
+    {
+      "id": "prd-51",
+      "sku": "ZNS-0051",
+      "image": "https://images.unsplash.com/photo-1500000000050?auto=format&fit=crop&w=900&q=80",
+      "name": "ViewSonic VX2758A-2K-PRO",
+      "category": "Monitor",
+      "price": 5990000,
+      "warrantyMonths": 12,
+      "stock": 9,
+      "specs": [
+        "27 inch",
+        "2K 170Hz",
+        "IPS"
+      ],
+      "description": "Màn hình cân bằng giữa gaming tốc độ cao và hiển thị màu ổn cho đồ họa bán chuyên."
+    },
+    {
+      "id": "prd-52",
+      "sku": "ZNS-0052",
+      "image": "https://images.unsplash.com/photo-1500000000051?auto=format&fit=crop&w=900&q=80",
+      "name": "ASUS Prime AP201",
+      "category": "Case",
+      "price": 1990000,
+      "warrantyMonths": 6,
+      "stock": 10,
+      "specs": [
+        "mATX Mesh",
+        "Thiết kế tối giản",
+        "Airflow tốt"
+      ],
+      "description": "Case lưới phong cách hiện đại cho góc máy tối giản, gọn và vẫn thoáng mát."
+    },
+    {
+      "id": "prd-53",
+      "sku": "ZNS-0053",
+      "image": "https://images.unsplash.com/photo-1500000000052?auto=format&fit=crop&w=900&q=80",
+      "name": "MSI Modern 14",
+      "category": "Laptop",
+      "price": 14990000,
+      "warrantyMonths": 9,
+      "stock": 12,
+      "specs": [
+        "Core i5",
+        "14 inch",
+        "Mỏng nhẹ"
+      ],
+      "description": "Laptop di động phù hợp cho sales, marketing, sinh viên cần gọn nhẹ và pin tương đối tốt."
+    },
+    {
+      "id": "prd-54",
+      "sku": "ZNS-0054",
+      "image": "https://images.unsplash.com/photo-1500000000053?auto=format&fit=crop&w=900&q=80",
+      "name": "ASUS USB-C Dock Mini",
+      "category": "Accessory",
+      "price": 1490000,
+      "warrantyMonths": 6,
+      "stock": 16,
+      "specs": [
+        "HDMI",
+        "USB-A",
+        "PD passthrough"
+      ],
+      "description": "Dock chuyển đổi tiện lợi cho laptop văn phòng và setup làm việc cần mở rộng cổng kết nối."
+    }
+  ],
+  "favorites": [],
+  "cartItems": [],
+  "orders": [
+    {
+      "id": "ord-1774433148582",
+      "userId": "usr-minhdev",
+      "username": "minhdev",
+      "subtotal": 2090000,
+      "shippingFee": 0,
+      "total": 2090000,
+      "fulfillmentMethod": "pickup",
+      "pickupDate": "2026-03-26T10:05:48.582Z",
+      "address": "",
+      "paymentMethod": "pickup",
+      "paymentStatus": "pending-cod",
+      "status": "Cho nhan tai store",
+      "createdAt": "2026-03-25T10:05:48.582Z",
+      "items": [
+        {
+          "productId": "prd-2",
+          "quantity": 1,
+          "unitPrice": 2090000,
+          "subtotal": 2090000,
+          "product": {
+            "id": "prd-2",
+            "sku": "ZNS-0002",
+            "image": "https://images.unsplash.com/photo-1500000000001?auto=format&fit=crop&w=900&q=80",
+            "name": "Kingston Fury Beast 32GB DDR4 3600",
+            "category": "RAM",
+            "price": 2090000,
+            "warrantyMonths": 9,
+            "stock": 16,
+            "specs": [
+              "32GB (2x16GB)",
+              "DDR4 3600MHz",
+              "Tản nhiệt nhôm"
+            ],
+            "description": "Lựa chọn cân bằng cho dân thiết kế, streamer và game thủ cần đa nhiệm mượt mà trong thời gian dài."
+          }
+        }
+      ]
+    }
+  ]
+}
