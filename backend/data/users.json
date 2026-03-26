@@ -1,0 +1,32 @@
+[
+  {
+    "id": "usr-admin",
+    "username": "admin",
+    "email": "admin@zaneestore.local",
+    "phone": "0900000001",
+    "passwordHash": "$2b$10$Jnu3DMlx6zvGX2ny62Hym.nqiB8ZcuOU4c/rSvHpg8cbLvSp0kFpC",
+    "role": "admin",
+    "isLocked": false,
+    "createdAt": "2026-03-24T10:44:07.191Z"
+  },
+  {
+    "id": "usr-minhdev",
+    "username": "minhdev",
+    "email": "minhdev@zaneestore.local",
+    "phone": "0900000002",
+    "passwordHash": "$2b$10$WQSNSZtS7L4fhHrgOwrN8.oHo4rfOQGRwf0w7tmtD/ceTTdOmA16W",
+    "role": "user",
+    "isLocked": false,
+    "createdAt": "2026-03-24T10:44:07.192Z"
+  },
+  {
+    "id": "usr-blocked",
+    "username": "blockeduser",
+    "email": "blocked@zaneestore.local",
+    "phone": "0900000003",
+    "passwordHash": "$2b$10$2e5yAchbga8iHBTdzrdEveZHd1U//WRez24G3zjq5PMimEZFPiUbe",
+    "role": "user",
+    "isLocked": true,
+    "createdAt": "2026-03-24T10:44:07.192Z"
+  }
+]
