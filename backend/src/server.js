@@ -11,7 +11,9 @@ const { sql, getPool, initializeDatabase, parseProduct, parseUser } = require(".
 const app = express();
 const PORT = process.env.PORT || 4000;
 const JWT_SECRET = process.env.JWT_SECRET || "zanee-store-secret";
-const FRONTEND_DIST_DIR = path.resolve(__dirname, "../public");
+// Prefer serving a build placed in backend/public, but fall back to frontend/build
+const CANDIDATE_DIRS = [path.resolve(__dirname, "../public"), path.resolve(__dirname, "../../frontend/build")];
+let FRONTEND_DIST_DIR = CANDIDATE_DIRS.find((p) => fs.existsSync(path.join(p, "index.html"))) || CANDIDATE_DIRS[0];
 const FRONTEND_INDEX_FILE = path.join(FRONTEND_DIST_DIR, "index.html");
 const HAS_FRONTEND_BUILD = fs.existsSync(FRONTEND_INDEX_FILE);
 

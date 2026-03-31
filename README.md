@@ -5,33 +5,35 @@ Zanee Store is a full-stack demo e-commerce project for computers and PC parts.
 Core stack:
 - Frontend: React
 - Backend: Express
-- Database: SQL Server
-- Cloud deployment: Fly.io
-- Containerization: Docker
-- CRM / cloud integration: Salesforce
+## Zanee Store
 
-## Deployment model
+Zanee Store là một dự án demo thương mại điện tử toàn diện cho linh kiện máy tính và PC.
 
-The project is now prepared for a simple real-world cloud deployment:
-- one Docker image builds the React frontend and the Express backend
-- Fly.io runs the public application
-- Salesforce is used as the cloud integration target
-- SQL Server remains the source-of-truth database
+Ngăn xếp chính:
+- Frontend: React
+- Backend: Express
+- Cơ sở dữ liệu: SQL Server
+- Triển khai cloud: Fly.io
+- Đóng gói: Docker
+- Tích hợp CRM / nền tảng cloud: Salesforce
 
-This keeps the submission aligned with the teacher's request for:
-- deployment to a real cloud environment
-- Docker-based packaging
-- integration with a platform in the suggested cloud ecosystem
+## Mô hình triển khai
 
-## Main files
+Dự án đã được chuẩn bị để triển khai lên môi trường cloud thực tế:
+- Một Docker image biên dịch frontend React và backend Express
+- Fly.io chạy ứng dụng công khai
+- Salesforce làm nền tảng tích hợp dữ liệu/CRM
+- SQL Server vẫn là nguồn dữ liệu chính
 
-- `Dockerfile`: builds the full-stack production image
-- `fly.toml`: Fly.io app configuration
-- `docker-compose.yml`: local full-stack container run with SQL Server
-- `README_DEPLOY.md`: step-by-step deployment guide
-- `DEPLOY_CLOUD.md`: teacher-facing cloud submission checklist
+## Các file chính
 
-## Local development
+- `Dockerfile`: xây dựng image production toàn stack
+- `fly.toml`: cấu hình ứng dụng Fly.io
+- `docker-compose.yml`: chạy toàn bộ ứng dụng cục bộ (kèm SQL Server)
+- `README_DEPLOY.md`: hướng dẫn triển khai rút gọn
+- `DEPLOY_CLOUD.md`: checklist nộp báo cáo / cloud
+
+## Phát triển cục bộ
 
 Backend:
 
@@ -49,4 +51,4 @@ npm install
 npm start
 ```
 
-Frontend can use `frontend/.env.example` as a starting point for local API configuration.
+Frontend có thể dùng `frontend/.env.example` làm mẫu để cấu hình API khi phát triển cục bộ.
