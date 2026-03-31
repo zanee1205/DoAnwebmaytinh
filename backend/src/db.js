@@ -2,6 +2,7 @@
 // This file provides lightweight implementations of the interfaces used by server.js
 // In production you should replace this with the real mssql-based implementation.
 
+console.log('db stub v2');
 class FakeRequest {
   constructor() {
     this.params = {};
