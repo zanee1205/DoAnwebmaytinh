@@ -7,7 +7,7 @@ class FakeRequest {
     this.params = {};
     this._inputs = {};
   }
-  input(name, /*type*/, value) {
+  input(name, value) {
     this._inputs[name] = value;
     return this;
   }
