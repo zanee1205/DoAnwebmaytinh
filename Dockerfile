@@ -3,7 +3,7 @@ WORKDIR /app
 
 # Install frontend deps and build
 COPY frontend/package*.json frontend/
-RUN npm ci --prefix frontend
+RUN npm install --prefix frontend
 COPY frontend/ frontend/
 RUN npm run --prefix frontend build
 
@@ -12,7 +12,7 @@ WORKDIR /app
 
 # Install backend deps
 COPY backend/package*.json backend/
-RUN npm ci --prefix backend --production
+RUN npm install --prefix backend --production
 COPY backend/ backend/
 
 # Copy built frontend into backend public folder (server will serve it)
