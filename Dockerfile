@@ -27,6 +27,8 @@ ENV NODE_ENV=production
 # Copy backend runtime files
 COPY --from=backend-build /app/backend /app/backend
 COPY --from=backend-build /app/backend/node_modules /app/backend/node_modules
+COPY start.sh /app/start.sh
 
 EXPOSE 4000
-CMD ["node", "backend/src/server.js"]
+RUN chmod +x /app/start.sh || true
+CMD ["sh", "/app/start.sh"]
