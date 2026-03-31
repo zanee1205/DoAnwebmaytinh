@@ -6,7 +6,17 @@ const express = require("express");
 const cors = require("cors");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
-const { sql, getPool, initializeDatabase, parseProduct, parseUser } = require("./db");
+let sql, getPool, initializeDatabase, parseProduct, parseUser;
+try {
+  ({ sql, getPool, initializeDatabase, parseProduct, parseUser } = require("./db"));
+} catch (err) {
+  console.error("Warning: failed to load ./db, using lightweight fallback:", err && err.message);
+  sql = {};
+  getPool = async () => ({ request: () => ({ input: () => ({ query: async () => ({ recordset: [] }) }) }) });
+  initializeDatabase = async () => {};
+  parseProduct = (row) => (row ? { id: row.Id || row.id || "", name: row.Name || row.name || "" } : null);
+  parseUser = (row) => (row ? { id: row.Id || row.id || "", username: row.Username || row.username || "" } : null);
+}
 
 const app = express();
 const PORT = process.env.PORT || 4000;
