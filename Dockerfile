@@ -14,6 +14,8 @@ WORKDIR /app
 COPY backend/package*.json backend/
 RUN npm install --prefix backend --production
 COPY backend/ backend/
+# Debug: print the db stub contents to verify build context (temporary)
+RUN echo '--- BEGIN db.js ---' && cat backend/src/db.js || true && echo '--- END db.js ---'
 
 # Copy built frontend into backend public folder (server will serve it)
 COPY --from=frontend-build /app/frontend/build backend/public
