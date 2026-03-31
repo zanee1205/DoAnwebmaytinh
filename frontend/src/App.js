@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import "./App.css";
 
-const API_BASE = "http://localhost:4000/api";
+// Use localhost during development, but a relative path in production
+const API_BASE = process.env.NODE_ENV === "development" ? "http://localhost:4000/api" : "/api";
 const PURPOSE_OPTIONS = [
   { value: "office", label: "Công việc văn phòng" },
   { value: "basicGaming", label: "Chơi game cơ bản" },
