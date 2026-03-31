@@ -561,9 +561,66 @@
     gap: 8px !important;
   }
 
+  /* Mobile: keep navbar action buttons on a single horizontal row */
+  .navbar > .d-flex:last-child {
+    gap: 8px !important;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 4px;
+  }
+
   .navbar > .d-flex:last-child .btn {
-    width: 100%;
-    justify-content: center;
+    width: auto;
+    padding: 6px 10px;
+    font-size: 0.8rem;
+    border-radius: 14px !important;
+    min-width: 44px;
+    white-space: nowrap;
+  }
+
+  /* Stronger override: ensure any header action container stays horizontal */
+  .navbar .d-flex.align-items-center {
+    flex-wrap: nowrap !important;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .navbar .d-flex.align-items-center .btn {
+    width: auto !important;
+    flex: 0 0 auto !important;
+    white-space: nowrap !important;
+  }
+
+  /* Further tighten button width and font-size for very small screens */
+  .navbar > .d-flex:last-child .btn,
+  .navbar > .d-flex:last-child .btn.btn-sm,
+  .navbar > .d-flex:last-child .chip-button {
+    flex: 0 0 auto;
+    min-width: 36px;
+    max-width: 140px;
+    padding: 6px 8px;
+    font-size: 0.72rem;
+    line-height: 1;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+
+  /* Reduce other dense action rows */
+  .product-card .mt-3.d-flex.gap-2,
+  .icon-actions {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    gap: 6px;
+  }
+
+  .product-card .mt-3.d-flex.gap-2 .btn,
+  .icon-actions .btn {
+    flex: 0 0 auto;
+    padding: 6px 8px;
+    font-size: 0.68rem;
+    min-width: 36px;
   }
 
   .hero-panel h1,
